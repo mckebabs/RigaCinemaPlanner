@@ -91,7 +91,7 @@ IMDb rules:
 ## UI Decisions
 
 - Interface language: English.
-- Page title and first heading: `Riga Cinema Planner` only.
+- First heading: `Riga Cinema Planner` only.
 - Movie titles, genres, and language values remain as published by cinema sources.
 - Visual style: clean light utility layout.
 - Layout: compact list.
@@ -99,6 +99,10 @@ IMDb rules:
 - Filters:
   - Cinema multi-select.
   - Movie-name search.
+- Manual refresh:
+  - Show a `Refresh data` button in the header.
+  - The button re-fetches the latest deployed `data/schedule.json` with cache busting.
+  - It does not directly scrape cinema websites from the browser.
 - Default filters: all cinemas selected.
 - Movie search:
   - Match both local and original titles.
@@ -234,7 +238,7 @@ pnpm test
 pnpm scrape
 ```
 
-Recent local scrape result: all three sources succeeded locally. Recent GitHub Actions result: workflow and deployment succeeded, but Apollo and Cinamon were blocked/unreachable from GitHub-hosted runners, so the live generated data contained Forum Cinemas plus concise warnings.
+Recent local scrape result: all three sources succeeded locally. Recent GitHub Actions result: workflow and deployment succeeded, but Apollo and Cinamon were blocked/unreachable from GitHub-hosted runners, so the live generated data contained Forum Cinemas plus concise warnings. The in-page refresh button can reload the newest deployed JSON, but it cannot bypass the GitHub-hosted runner network block.
 
 ## Notes For Future Codex Work
 

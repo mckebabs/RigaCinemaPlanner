@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Riga Cinema Planner</title>
     <meta name="description" content="Today’s movie showtimes across Riga cinemas.">
     <link rel="stylesheet" href="./assets/styles.css">
   </head>
@@ -13,7 +12,10 @@
         <div>
           <h1>Riga Cinema Planner</h1>
         </div>
-        <div class="status" id="status">Loading showtimes...</div>
+        <div class="header-actions">
+          <div class="status" id="status">Loading showtimes...</div>
+          <button class="refresh-button" id="refresh-data" type="button">Refresh data</button>
+        </div>
       </div>
     </header>
 

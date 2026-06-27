@@ -66,10 +66,40 @@ h1 {
   letter-spacing: 0;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .status {
   color: var(--muted);
   font-size: 0.95rem;
   text-align: right;
+}
+
+.refresh-button {
+  min-height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0 12px;
+  background: var(--panel);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.refresh-button:hover,
+.refresh-button:focus-visible {
+  border-color: var(--accent);
+  outline: 3px solid var(--accent-soft);
+}
+
+.refresh-button:disabled {
+  cursor: wait;
+  opacity: 0.65;
 }
 
 .app {
@@ -284,8 +314,14 @@ h1 {
     display: block;
   }
 
-  .status {
+  .header-actions {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
     margin-top: 12px;
+  }
+
+  .status {
     text-align: left;
   }
 

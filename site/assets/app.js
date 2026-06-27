@@ -25,7 +25,8 @@ const els = {
   count: document.querySelector('#result-count'),
   warning: document.querySelector('#warning-note'),
   list: document.querySelector('#showtime-list'),
-  empty: document.querySelector('#empty-state')
+  empty: document.querySelector('#empty-state'),
+  refresh: document.querySelector('#refresh-data')
 };
 
 function normalizeText(value) {
@@ -190,18 +191,37 @@ els.cinemaOptions.addEventListener('change', (event) => {
   }
 });
 
-fromUrlState();
+async function loadData({ manual = false } = {}) {
+  if (manual) {
+    els.refresh.disabled = true;
+    els.refresh.textContent = 'Refreshing...';
+    els.status.textContent = 'Checking latest data...';
+  }
 
-try {
-  const response = await fetch(DATA_URL, { cache: 'no-store' });
-  if (!response.ok) throw new Error(`HTTP ${response.status}`);
-  state.data = await response.json();
-  els.status.textContent = formatUpdated(state.data.generatedAt);
-  renderWarnings(state.data);
-  renderCinemaFilters(state.data.showtimes || []);
-  render();
-} catch (error) {
-  els.status.textContent = 'Could not load schedule data';
-  els.warning.hidden = false;
-  els.warning.textContent = error.message;
+  try {
+    const url = manual ? `${DATA_URL}?t=${Date.now()}` : DATA_URL;
+    const response = await fetch(url, { cache: 'no-store' });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    state.data = await response.json();
+    els.status.textContent = formatUpdated(state.data.generatedAt);
+    renderWarnings(state.data);
+    renderCinemaFilters(state.data.showtimes || []);
+    render();
+  } catch (error) {
+    els.status.textContent = 'Could not load schedule data';
+    els.warning.hidden = false;
+    els.warning.textContent = error.message;
+  } finally {
+    if (manual) {
+      els.refresh.disabled = false;
+      els.refresh.textContent = 'Refresh data';
+    }
+  }
 }
+
+els.refresh.addEventListener('click', () => {
+  loadData({ manual: true });
+});
+
+fromUrlState();
+await loadData();
